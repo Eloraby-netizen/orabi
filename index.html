@@ -49,7 +49,7 @@ input,select{width:100%;padding:11px;border:1px solid var(--line);border-radius:
 </style>
 </head>
 <body>
-<div class="lock" id="lk"><h1>🏪 متجر العرابي</h1><div>اكتب الرقم عشان تدخل</div><input id="pw" type="password" inputmode="numeric" placeholder="اكتب الرقم" autofocus autocomplete="current-password" style="letter-spacing:0;font-size:16px"><button class="btn" id="go">دخول</button><p id="er"></p></div>
+<div class="lock" id="lk"><h1>🏪 متجر العرابي</h1><div>اكتب الرقم عشان تدخل</div><input id="pw" type="password" inputmode="numeric" dir="ltr" placeholder="اكتب الرقم" autofocus autocomplete="current-password" style="direction:ltr;text-align:center;letter-spacing:1px;font-size:18px"><button class="btn sec" type="button" id="sh" style="width:100%;max-width:280px">إظهار الرقم</button><button class="btn" id="go">دخول</button><p id="er"></p></div>
 <header><div><h1>🏪 متجر العرابي</h1><small>المخزون والمبيعات</small></div><div style="display:flex;gap:6px"><button class="btn sec" id="bk">نسخة احتياطية</button><button class="btn sec" id="lo">خروج</button></div></header>
 <main id="m"></main>
 <nav id="nv"></nav>
@@ -174,7 +174,7 @@ function start(){
 function stop(){unsub.forEach(u=>u());unsub=[];S={products:[],purchases:[],sales:[],expenses:[]}}
 auth.onAuthStateChanged(u=>{if(u){$('#lk').style.display='none';stop();start()}else{stop();$('#m').innerHTML='';$('#lk').style.display='flex'}});
 async function login(){$('#er').textContent='';try{await auth.signInWithEmailAndPassword('01008617819@orabi.app','#'+$('#pw').value.replace(/[#\s]/g,'')+'#');$('#pw').value=''}catch(e){$('#er').textContent=(e.code==='auth/invalid-credential'||e.code==='auth/wrong-password'||e.code==='auth/user-not-found'?'الرقم غلط':'مشكلة: '+(e.code||e.message))}}
-$('#go').onclick=login;$('#pw').onkeydown=e=>{if(e.key==='Enter')login()};
+$('#sh').onclick=()=>{const p=$('#pw');const s=p.type==='password';p.type=s?'tel':'password';$('#sh').textContent=s?'إخفاء الرقم':'إظهار الرقم'};$('#go').onclick=login;$('#pw').onkeydown=e=>{if(e.key==='Enter')login()};
 $('#lo').onclick=()=>{if(confirm('تسجيل خروج؟'))auth.signOut()};
 </script>
 </body>
