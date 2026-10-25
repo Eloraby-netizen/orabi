@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0f5c52">
+<title>متجر العرابي</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#eef3f1;--card:#fff;--ink:#12302b;--mute:#6b807a;--pri:#0f5c52;--pri2:#d9efe9;--acc:#f0b429;--bad:#c0392b;--good:#1e8a5a;--line:#dbe5e1;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e1917;--card:#162623;--ink:#e6f1ee;--mute:#92a8a2;--pri:#3cbfa8;--pri2:#1d3a35;--line:#24403b;--bad:#ff7b6b;--good:#52d49a}}
+:root[data-theme="dark"]{--bg:#0e1917;--card:#162623;--ink:#e6f1ee;--mute:#92a8a2;--pri:#3cbfa8;--pri2:#1d3a35;--line:#24403b;--bad:#ff7b6b;--good:#52d49a}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:Cairo,Tahoma,Arial,sans-serif;font-size:16px}
+body{padding-bottom:84px}
+header{background:var(--pri);color:#fff;padding:16px 16px 14px;display:flex;align-items:center;justify-content:space-between}
+header h1{margin:0;font-size:20px;font-weight:800}
+header small{opacity:.8;font-size:12px}
+main{padding:12px;max-width:720px;margin:auto}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px}
+.stat b{display:block;font-size:20px;font-weight:800;margin-top:2px}
+.stat span{font-size:12px;color:var(--mute)}
+.stat.big{grid-column:1/-1;background:var(--pri);color:#fff;border:0}
+.stat.big span{color:#d6efe9}.stat.big b{font-size:28px}
+.neg{color:var(--bad)}.pos{color:var(--good)}.big .neg,.big .pos{color:#fff}
+h2{font-size:16px;margin:18px 4px 8px;font-weight:800}
+.row{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin-bottom:8px;display:flex;justify-content:space-between;gap:10px;align-items:center}
+.row .t{font-weight:600}.row .s{font-size:12.5px;color:var(--mute);margin-top:2px}
+.row .e{text-align:left;white-space:nowrap;font-weight:800}
+.tag{display:inline-block;font-size:11px;padding:1px 8px;border-radius:99px;background:var(--pri2);color:var(--pri);font-weight:600}
+.tag.out{background:#fde3df;color:#b03023}.tag.low{background:#fff0c9;color:#8a6200}
+.btn{border:0;border-radius:10px;padding:11px 16px;font:inherit;font-weight:700;cursor:pointer;background:var(--pri);color:#fff}
+.btn.sec{background:var(--pri2);color:var(--pri)}.btn.del{background:#fde3df;color:#b03023}
+.add{width:100%;margin-bottom:10px;padding:13px}
+nav{position:fixed;bottom:0;left:0;right:0;background:var(--card);border-top:1px solid var(--line);display:flex;padding:4px 2px calc(4px + env(safe-area-inset-bottom,0px));z-index:5}
+nav button{flex:1;border:0;background:none;font:inherit;font-size:11px;color:var(--mute);padding:6px 0;cursor:pointer}
+nav button i{display:block;font-style:normal;font-size:20px}
+nav button.on{color:var(--pri);font-weight:800}
+.sheet{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:10;display:flex;align-items:flex-end;justify-content:center}
+.sheet form{background:var(--card);width:100%;max-width:560px;border-radius:18px 18px 0 0;padding:16px;max-height:88vh;overflow:auto}
+.sheet h3{margin:0 0 10px}
+label{display:block;font-size:13px;color:var(--mute);margin:8px 0 3px}
+input,select{width:100%;padding:11px;border:1px solid var(--line);border-radius:10px;font:inherit;background:var(--bg);color:var(--ink)}
+.acts{display:flex;gap:8px;margin-top:14px}.acts .btn{flex:1}
+.empty{text-align:center;color:var(--mute);padding:22px}
+.lock{position:fixed;inset:0;z-index:99;background:var(--pri);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:24px;text-align:center}.lock h1{margin:0;font-size:26px}.lock input{max-width:280px;text-align:center;font-size:20px;letter-spacing:2px;background:#fff;color:#12302b}.lock .btn{background:var(--acc);color:#12302b;width:100%;max-width:280px}.lock p{margin:0;min-height:22px;color:#ffd7d2;font-size:14px}
+.tot{display:flex;justify-content:space-between;background:var(--pri2);color:var(--pri);border-radius:12px;padding:10px 14px;font-weight:800;margin-bottom:10px}
+</style>
+</head>
+<body>
+<div class="lock" id="lk"><h1>🏪 متجر العرابي</h1><div>سجّل دخول عشان تفتح البيانات</div><input id="em" type="text" inputmode="numeric" placeholder="اسم المستخدم" autocomplete="username" style="direction:ltr;letter-spacing:0;font-size:16px"><input id="pw" type="password" placeholder="الباسورد" autofocus autocomplete="current-password" style="letter-spacing:0;font-size:16px"><button class="btn" id="go">دخول</button><p id="er"></p></div>
+<header><div><h1>🏪 متجر العرابي</h1><small>المخزون والمبيعات</small></div><div style="display:flex;gap:6px"><button class="btn sec" id="bk">نسخة احتياطية</button><button class="btn sec" id="lo">خروج</button></div></header>
+<main id="m"></main>
+<nav id="nv"></nav>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/10.12.2/firebase-app-compat.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/10.12.2/firebase-auth-compat.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/10.12.2/firebase-firestore-compat.min.js"></script>
+<script>
+const KEY='orabi_store_v1';
+const SEED={products:[["جرايد","كيلو",25,32],["ورق سلوفان","رول",40,55],["أكياس","باكو",20,28],["أطباق فوم","باكو",30,42],["كوبيات","باكو",25,35],["معالق","باكو",15,22],["شوك","باكو",15,22],["استرتش","رول",120,150],["أطباق حراري","باكو",45,60],["مناديل","كرتونة",180,230]].map((p,i)=>({id:i+1,name:p[0],unit:p[1],buy:p[2],sell:p[3],open:0,min:5})),purchases:[],sales:[],expenses:[],n:100};
+let S={products:[],purchases:[],sales:[],expenses:[]};
+const KS=['products','purchases','sales','expenses'];
+const newId=()=>Date.now()*1000+Math.floor(Math.random()*1000);
+firebase.initializeApp({apiKey:"AIzaSyBlgY4A9zYL50Xumc45lS9aYGWhfk8Qyas",authDomain:"orabi-store-34d2c.firebaseapp.com",projectId:"orabi-store-34d2c",storageBucket:"orabi-store-34d2c.firebasestorage.app",messagingSenderId:"685475273011",appId:"1:685475273011:web:95942302bd3336c42dc646"});
+const auth=firebase.auth(),db=firebase.firestore();
+try{db.enablePersistence({synchronizeTabs:true}).catch(()=>{})}catch(e){}
+let unsub=[],ready={};
+function save(){const b=db.batch();KS.forEach(k=>b.set(db.collection('orabi').doc(k),{list:S[k]}));b.commit().catch(e=>alert('تعذر الحفظ على السيرفر: '+e.message))}
+const $=s=>document.querySelector(s);
+const f=n=>(Math.round((+n||0)*100)/100).toLocaleString('en-US');
+const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const today=()=>new Date().toISOString().slice(0,10);
+const sum=(a,k)=>a.reduce((t,x)=>t+(+x[k]||0),0);
+const prod=n=>S.products.find(p=>p.name===n);
+function stock(p){return (+p.open||0)+sum(S.purchases.filter(x=>x.prod===p.name),'qty')-sum(S.sales.filter(x=>x.prod===p.name),'qty')}
+function cost(s){const p=prod(s.prod);return s.qty*(p?p.buy:0)}
+function calc(){
+ const sales=sum(S.sales.map(s=>({v:s.qty*s.price})),'v'),buys=sum(S.purchases.map(s=>({v:s.qty*s.price})),'v');
+ const sp=sum(S.sales,'paid'),bp=sum(S.purchases,'paid'),ex=sum(S.expenses,'amt');
+ const cogs=sum(S.sales.map(s=>({v:cost(s)})),'v');
+ return{sales,buys,sp,bp,ex,gross:sales-cogs,net:sales-cogs-ex,stockVal:sum(S.products.map(p=>({v:Math.max(stock(p),0)*p.buy})),'v'),owedIn:sales-sp,owedOut:buys-bp,cash:sp-bp-ex,low:S.products.filter(p=>stock(p)<=p.min).length}
+}
+const TABS=[["home","🏠","الرئيسية"],["prods","📦","المنتجات"],["buys","🛒","المشتريات"],["sales","💰","المبيعات"],["debt","👥","فلوس بره"],["exp","🧾","المصروفات"]];
+let tab='home';
+$('#nv').innerHTML=TABS.map(t=>`<button data-t="${t[0]}"><i>${t[1]}</i>${t[2]}</button>`).join('');
+$('#nv').onclick=e=>{const b=e.target.closest('button');if(b){tab=b.dataset.t;render()}};
+function stat(l,v,cls,big){return `<div class="stat${big?' big':''}"><span>${l}</span><b class="${cls||''}">${f(v)}</b></div>`}
+function sgn(v){return v<0?'neg':''}
+function render(){
+ document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('on',b.dataset.t===tab));
+ const c=calc();let h='';
+ if(tab==='home'){
+  h=`<div class="grid">${stat('صافي الربح (بعد المصروفات)',c.net,sgn(c.net),1)}
+  ${stat('إجمالي المبيعات',c.sales)}${stat('إجمالي المشتريات',c.buys)}
+  ${stat('الربح قبل المصروفات',c.gross,sgn(c.gross))}${stat('المصروفات',c.ex)}
+  ${stat('قيمة المخزون',c.stockVal)}${stat('الخزنة التقديرية (كاش)',c.cash,sgn(c.cash))}
+  ${stat('فلوس بره عند العملاء',c.owedIn)}${stat('مستحق للموردين',c.owedOut)}
+  ${stat('عدد المنتجات',S.products.length)}${stat('أصناف نفدت / محتاجة طلب',c.low)}</div>`;
+  const lows=S.products.filter(p=>stock(p)<=p.min);
+  if(lows.length)h+=`<h2>محتاجة طلب</h2>`+lows.map(p=>`<div class="row"><div class="t">${esc(p.name)}</div><div class="e">${f(stock(p))} ${esc(p.unit)}</div></div>`).join('');
+ }
+ if(tab==='prods'){
+  h=`<button class="btn add" data-a="p">➕ إضافة منتج</button>`+S.products.map(p=>{const s=stock(p);const st=s<=0?'<span class="tag out">نفد</span>':s<=p.min?'<span class="tag low">اطلب قريباً</span>':'<span class="tag">متوفر</span>';
+  return `<div class="row" data-e="${p.id}"><div><div class="t">${esc(p.name)} ${st}</div><div class="s">شراء ${f(p.buy)} · بيع ${f(p.sell)} · ربح الوحدة ${f(p.sell-p.buy)}</div></div><div class="e">${f(s)} <small>${esc(p.unit)}</small></div></div>`}).join('');
+ }
+ if(tab==='buys'){
+  h=`<button class="btn add" data-a="b">➕ تسجيل شراء</button><div class="tot"><span>إجمالي المشتريات</span><span>${f(c.buys)}</span></div>`+
+  (S.purchases.length?S.purchases.slice().reverse().map(x=>`<div class="row"><div><div class="t">${esc(x.prod)} × ${f(x.qty)}</div><div class="s">${esc(x.sup||'—')} · ${x.date} · مدفوع ${f(x.paid)}${x.qty*x.price-x.paid>0?' · باقي '+f(x.qty*x.price-x.paid):''}</div></div><div class="e">${f(x.qty*x.price)}<br><button class="btn del" data-d="purchases:${x.id}" style="padding:2px 10px;font-size:12px">حذف</button></div></div>`).join(''):'<div class="empty">مفيش مشتريات لسه</div>');
+ }
+ if(tab==='sales'){
+  h=`<button class="btn add" data-a="s">➕ تسجيل بيع</button><div class="tot"><span>إجمالي المبيعات</span><span>${f(c.sales)}</span></div>`+
+  (S.sales.length?S.sales.slice().reverse().map(x=>{const t=x.qty*x.price;return `<div class="row"><div><div class="t">${esc(x.prod)} × ${f(x.qty)}</div><div class="s">${esc(x.cust||'—')} · ${x.date} · مدفوع ${f(x.paid)}${t-x.paid>0?' · باقي '+f(t-x.paid):''}</div><div class="s">ربح ${f(t-cost(x))}</div></div><div class="e">${f(t)}<br><button class="btn del" data-d="sales:${x.id}" style="padding:2px 10px;font-size:12px">حذف</button></div></div>`}).join(''):'<div class="empty">مفيش مبيعات لسه</div>');
+ }
+ if(tab==='debt'){
+  const g=(arr,k)=>{const m={};arr.forEach(x=>{const n=x[k]||'بدون اسم';m[n]=m[n]||{t:0,p:0};m[n].t+=x.qty*x.price;m[n].p+=+x.paid||0});return Object.entries(m).filter(e=>e[1].t-e[1].p!==0)};
+  const a=g(S.sales,'cust'),b=g(S.purchases,'sup');
+  h=`<div class="tot"><span>فلوس لينا عند العملاء</span><span>${f(c.owedIn)}</span></div>`+(a.length?a.map(e=>`<div class="row"><div><div class="t">${esc(e[0])}</div><div class="s">مشتريات ${f(e[1].t)} · دفع ${f(e[1].p)}</div></div><div class="e">${f(e[1].t-e[1].p)}</div></div>`).join(''):'<div class="empty">مفيش فلوس بره</div>')+
+  `<div class="tot" style="margin-top:16px"><span>فلوس علينا للموردين</span><span>${f(c.owedOut)}</span></div>`+(b.length?b.map(e=>`<div class="row"><div><div class="t">${esc(e[0])}</div><div class="s">مشترياتنا ${f(e[1].t)} · دفعنا ${f(e[1].p)}</div></div><div class="e">${f(e[1].t-e[1].p)}</div></div>`).join(''):'<div class="empty">مفيش مستحقات</div>');
+ }
+ if(tab==='exp'){
+  h=`<button class="btn add" data-a="x">➕ تسجيل مصروف</button><div class="tot"><span>إجمالي المصروفات</span><span>${f(c.ex)}</span></div>`+
+  (S.expenses.length?S.expenses.slice().reverse().map(x=>`<div class="row"><div><div class="t">${esc(x.item)}</div><div class="s">${esc(x.cat||'')} · ${x.date} · ${esc(x.way||'')}</div></div><div class="e">${f(x.amt)}<br><button class="btn del" data-d="expenses:${x.id}" style="padding:2px 10px;font-size:12px">حذف</button></div></div>`).join(''):'<div class="empty">مفيش مصروفات لسه</div>');
+ }
+ $('#m').innerHTML=h;window.scrollTo(0,0);
+}
+const opts=()=>S.products.map(p=>`<option>${esc(p.name)}</option>`).join('');
+const F={
+ p:(p)=>({title:p?'تعديل منتج':'منتج جديد',html:`<label>الاسم</label><input name="name" required value="${esc(p&&p.name)}"><label>الوحدة</label><input name="unit" value="${esc(p?p.unit:'باكو')}"><label>سعر الشراء</label><input name="buy" type="number" step="any" inputmode="decimal" value="${p?p.buy:''}"><label>سعر البيع</label><input name="sell" type="number" step="any" inputmode="decimal" value="${p?p.sell:''}"><label>رصيد أول المدة</label><input name="open" type="number" step="any" inputmode="decimal" value="${p?p.open:0}"><label>حد إعادة الطلب</label><input name="min" type="number" step="any" inputmode="decimal" value="${p?p.min:5}">`}),
+ b:()=>({title:'تسجيل شراء',html:`<label>التاريخ</label><input name="date" type="date" value="${today()}"><label>المورد</label><input name="sup"><label>المنتج</label><select name="prod">${opts()}</select><label>الكمية</label><input name="qty" type="number" step="any" inputmode="decimal" required><label>سعر الشراء للوحدة</label><input name="price" type="number" step="any" inputmode="decimal" required><label>المدفوع</label><input name="paid" type="number" step="any" inputmode="decimal" value="0">`}),
+ s:()=>({title:'تسجيل بيع',html:`<label>التاريخ</label><input name="date" type="date" value="${today()}"><label>العميل</label><input name="cust"><label>المنتج</label><select name="prod" id="sp">${opts()}</select><label>الكمية</label><input name="qty" type="number" step="any" inputmode="decimal" required><label>سعر البيع للوحدة</label><input name="price" id="pr" type="number" step="any" inputmode="decimal" required><label>المدفوع</label><input name="paid" type="number" step="any" inputmode="decimal" value="0">`}),
+ x:()=>({title:'تسجيل مصروف',html:`<label>التاريخ</label><input name="date" type="date" value="${today()}"><label>البند</label><input name="item" required><label>الفئة</label><input name="cat" placeholder="إيجار، كهرباء، نقل…"><label>المبلغ</label><input name="amt" type="number" step="any" inputmode="decimal" required><label>طريقة الدفع</label><select name="way"><option>كاش</option><option>تحويل</option></select>`})
+};
+function open(kind,p){
+ const d=F[kind](p);const el=document.createElement('div');el.className='sheet';
+ el.innerHTML=`<form><h3>${d.title}</h3>${d.html}<div class="acts"><button class="btn" type="submit">حفظ</button><button class="btn sec" type="button" id="cx">إلغاء</button>${p?'<button class="btn del" type="button" id="dl">حذف</button>':''}</div></form>`;
+ document.body.appendChild(el);const fm=el.querySelector('form');
+ const close=()=>el.remove();
+ el.querySelector('#cx').onclick=close;el.onclick=e=>{if(e.target===el)close()};
+ if(p)el.querySelector('#dl').onclick=()=>{if(confirm('حذف المنتج؟')){S.products=S.products.filter(x=>x.id!==p.id);save();close();render()}};
+ const sp=el.querySelector('#sp');
+ if(sp){const fill=()=>{const q=prod(sp.value);if(q)el.querySelector('#pr').value=q.sell};sp.onchange=fill;fill()}
+ fm.onsubmit=e=>{e.preventDefault();const v=Object.fromEntries(new FormData(fm));
+  ['buy','sell','open','min','qty','price','paid','amt'].forEach(k=>{if(k in v)v[k]=+v[k]||0});
+  if(kind==='p'){if(p){const old=p.name;Object.assign(p,v);if(old!==v.name){S.purchases.concat(S.sales).forEach(x=>{if(x.prod===old)x.prod=v.name})}}else S.products.push({id:newId(),...v})}
+  else{v.id=newId();({b:S.purchases,s:S.sales,x:S.expenses})[kind].push(v)}
+  save();close();render()};
+}
+$('#m').onclick=e=>{
+ const a=e.target.closest('[data-a]');if(a){if(a.dataset.a!=='p'&&a.dataset.a!=='x'&&!S.products.length){alert('ضيف منتج الأول');return}open(a.dataset.a);return}
+ const d=e.target.closest('[data-d]');if(d){if(confirm('حذف العملية؟')){const[k,id]=d.dataset.d.split(':');S[k]=S[k].filter(x=>x.id!==+id);save();render()}return}
+ const p=e.target.closest('[data-e]');if(p)open('p',S.products.find(x=>x.id===+p.dataset.e));
+};
+$('#bk').onclick=()=>{
+ const el=document.createElement('div');el.className='sheet';
+ el.innerHTML=`<form><h3>نسخة احتياطية</h3><p style="color:var(--mute);font-size:14px;margin:0 0 8px">البيانات محفوظة على موبايلك بس. انسخ الكود ده واحتفظ بيه، ولصقه هنا لما تحتاج تسترجع.</p><label>البيانات</label><input id="bd" readonly><div class="acts"><button class="btn" type="button" id="cp">نسخ</button><button class="btn sec" type="button" id="rs">استرجاع من نص ملصوق</button><button class="btn sec" type="button" id="cl">إغلاق</button></div></form>`;
+ document.body.appendChild(el);const bd=el.querySelector('#bd');bd.value=JSON.stringify(S);
+ el.querySelector('#cl').onclick=()=>el.remove();
+ el.querySelector('#cp').onclick=()=>{bd.select();try{navigator.clipboard.writeText(bd.value)}catch(x){document.execCommand('copy')}};
+ el.querySelector('#rs').onclick=()=>{const t=prompt('الصق النسخة الاحتياطية هنا');if(!t)return;try{const o=JSON.parse(t);if(!o.products)throw 0;if(confirm('هيتم استبدال البيانات الحالية. متأكد؟')){KS.forEach(k=>S[k]=o[k]||[]);save();el.remove();render()}}catch(x){alert('النص ده مش نسخة صحيحة')}};
+};
+function start(){
+ $('#m').innerHTML='<div class="empty">جاري التحميل…</div>';ready={};
+ KS.forEach(k=>{unsub.push(db.collection('orabi').doc(k).onSnapshot(d=>{
+  if(d.exists){S[k]=d.data().list||[]}
+  else if(k==='products'&&!d.metadata.fromCache){
+   let o=null;try{o=JSON.parse(localStorage.getItem(KEY))}catch(e){}
+   if(!o||!o.products)o=JSON.parse(JSON.stringify(SEED));
+   KS.forEach(x=>S[x]=o[x]||[]);save();
+  }
+  ready[k]=true;if(KS.every(x=>ready[x]))render();
+ },e=>{$('#m').innerHTML='<div class="empty">مش قادر أقرا البيانات: '+esc(e.message)+'</div>'}))});
+}
+function stop(){unsub.forEach(u=>u());unsub=[];S={products:[],purchases:[],sales:[],expenses:[]}}
+auth.onAuthStateChanged(u=>{if(u){$('#lk').style.display='none';stop();start()}else{stop();$('#m').innerHTML='';$('#lk').style.display='flex'}});
+async function login(){$('#er').textContent='';try{await auth.signInWithEmailAndPassword((v=>v.includes('@')?v:v+'@orabi.app')($('#em').value.trim().toLowerCase()),$('#pw').value);$('#pw').value=''}catch(e){$('#er').textContent=(e.code==='auth/invalid-credential'||e.code==='auth/wrong-password'||e.code==='auth/user-not-found'?'اسم المستخدم أو الباسورد غلط':'مشكلة: '+(e.code||e.message))}}
+$('#go').onclick=login;$('#pw').onkeydown=e=>{if(e.key==='Enter')login()};
+$('#lo').onclick=()=>{if(confirm('تسجيل خروج؟'))auth.signOut()};
+</script>
+</body>
+</html>
